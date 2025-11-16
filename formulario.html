@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Equipos - Torneo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-end;
+            min-height: 100vh;
+            width: 100%;
+        }
+        .container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 14px;
+            width: 105%;
+            max-width: 550px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-left: auto;
+            margin-bottom: 30px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #444;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            background: #0078ff;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 17px;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #005fcc;
+        }
+        .success {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #d4ffd6;
+            color: #0e6b12;
+            display: none;
+        }
+        .error {
+            margin-top: 10px;
+            padding: 10px;
+            background: #ffd4d4;
+            color: #8b0000;
+            border-radius: 8px;
+            display: none;
+        }
+    .juegos-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .juego-card {
+            background: #fafafa;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .juego-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: #ddd;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+        }
+    .selected-card {
+            border: 2px solid #0078ff;
+            box-shadow: 0 0 10px rgba(0,120,255,0.6);
+            transform: scale(1.02);
+        }
+        .content-section {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin-top: 30px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .text-content {
+            flex: 1;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .text-content h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            margin-top: 0;
+        }
+        .text-content p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 15px;
+            margin: 0;
+        }
+        .image-content {
+            flex: 0 0 250px;
+        }
+        .image-content img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: auto;
+        }
+        .extra-fields {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0 60px 0;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .extra-fields .field {
+            flex: 1;
+        }
+        .extra-fields .field label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+        }
+        .gold-divider {
+            width: 6px;
+            height: 54px;
+            background: #d4af37; /* color dorado */
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        @media (max-width: 768px) {
+            .extra-fields {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .gold-divider {
+                width: 100%;
+                height: 4px;
+            }
+        }
+        @media (max-width: 768px) {
+            .content-section {
+                flex-direction: column;
+            }
+            .image-content {
+                flex: 0 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Inscripción Oficial del Torneo</h2>
+        <p style="text-align:center; color:#555; margin-bottom:10px;">Complete todos los datos para registrar su equipo.</p>
+
+        <form id="registroForm">
+            <label>Nombre del equipo</label>
+            <input type="text" name="equipo" id="equipo" required />
+
+            <label>Nombre y apellido del encargado</label>
+            <input type="text" name="encargado" id="encargado" required />
+
+            <label>Especialidad</label>
+<select name="especialidad" id="especialidad" required>
+    <option value="">Seleccione su especialidad</option>
+    <option value="Informática educativa">Informática educativa</option>
+    <option value="Lengua, literatura, filosofía y psicología">Lengua, literatura, filosofía y psicología</option>
+    <option value="Educación física">Educación física</option>
+    <option value="Idiomas (francés – inglés)">Idiomas (francés – inglés)</option>
+    <option value="Primaria">Primaria</option>
+    <option value="Inicial">Inicial</option>
+    <option value="Ciencias sociales">Ciencias sociales</option>
+    <option value="Ciencias naturales">Ciencias naturales</option>
+    <option value="Físico-matemática">Físico-matemática</option>
+</select>
+
+            <label>Celular</label>
+            <input type="tel" name="celular" id="celular" maxlength="9" required />
+
+            <label>DNI</label>
+            <input type="text" name="dni" id="dni" maxlength="8" required />
+
+            <label>Email</label>
+            <input type="email" name="email" id="email" required />
+
+            <label>Discord ID</label>
+            <input type="text" name="discord" id="discord" />
+
+            <label>¿Es estudiante?</label>
+            <select name="estudiante" id="estudiante" required>
+                <option value="">Seleccione una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select>
+
+            <label>¿Cuántos integrantes conforma su equipo?</label>
+            <input type="number" name="numIntegrantes" id="numIntegrantes" min="1" max="6" required />
+
+            <label>Nombres de los integrantes</label>
+            <textarea name="integrantes" id="integrantes" rows="4" style="width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #bbb; border-radius: 8px; font-size: 15px; box-sizing: border-box; font-family: Arial, sans-serif;" placeholder="Ingrese los nombres de los integrantes (uno por línea)" required></textarea>
+
+            <div class="error" id="errorMsg"></div>
+            <div class="success" id="successMsg">✔ Registro enviado con éxito.</div>
+
+            
+                    <label>Seleccione los juegos disponibles</label>
+
+<div class="juegos-container">
+    <div class="juego-card">
+        <img src="imagen1.jpg" alt="Juego 1" class="juego-img">
+        <input type="radio" name="juego" value="Dota 2" class="juego-select"> Dota 2
+    </div>
+
+    <div class="juego-card">
+        <img src="imagen2.jpg" alt="Juego 2" class="juego-img">
+        <input type="radio" name="juego" value="Left 4 Dead" class="juego-select"> Left 4 Dead
+    </div>
+
+    <div class="juego-card">
+        <img src="imagen3.jpg" alt="Juego 3" class="juego-img">
+        <input type="radio" name="juego" value="Mobile League" class="juego-select"> Mobile League
+    </div>
+
+    <div class="juego-card">
+        <img src="imagen4.jpg" alt="Juego 4" class="juego-img">
+        <input type="radio" name="juego" value="Brawl Star" class="juego-select"> Brawl Star
+    </div>
+</div>
+
+            <button type="submit" style="margin-top:25px;">Enviar Registro</button>
+        </form>
+    </div>
+
+    <div class="content-section">
+        <div class="text-content">
+            <h3>Información Adicional</h3>
+            <p>Aquí puedes colocar información adicional sobre el torneo, reglas, premios o cualquier otro detalle importante que desees que los participantes conozcan. Este espacio es ideal para proporcionar contexto y motivar a los equipos a participar.</p>
+        </div>
+        <div class="image-content">
+            <img src="imagen_seccion.jpg" alt="Imagen de sección">
+        </div>
+    </div>
+
+    <!-- Campos adicionales con separación dorada -->
+    <div class="extra-fields">
+        <div class="field">
+            <label for="campo1">Campo adicional 1</label>
+            <input type="text" id="campo1" name="campo1" placeholder="Ingrese información" />
+        </div>
+
+        <div class="gold-divider" aria-hidden="true"></div>
+
+        <div class="field">
+            <label for="campo2">Campo adicional 2</label>
+            <input type="text" id="campo2" name="campo2" placeholder="Ingrese información" />
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("registroForm").addEventListener("submit", function(e){
+            e.preventDefault();
+
+            let error = "";
+
+            const celular = document.getElementById("celular").value.trim();
+            const dni = document.getElementById("dni").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const integrantes = document.getElementById("integrantes").value.trim();
+            const numIntegrantes = document.getElementById("numIntegrantes").value;
+
+            if(celular.length !== 9 || isNaN(celular)){
+                error += "• El celular debe tener 9 dígitos válidos.<br>";
+            }
+
+            if(dni.length !== 8 || isNaN(dni)){
+                error += "• El DNI debe tener 8 dígitos válidos.<br>";
+            }
+
+            const emailPattern = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+            if(!emailPattern.test(email)){
+                error += "• Ingrese un email válido.<br>";
+            }
+
+            if(!integrantes || integrantes.split('\n').length < numIntegrantes){
+                error += "• Ingrese al menos " + numIntegrantes + " nombres de integrantes.<br>";
+            }
+
+            const juego = document.querySelector('input[name="juego"]:checked');
+            if(!juego){
+                error += "• Seleccione un juego.<br>";
+            }
+
+            const errorMsg = document.getElementById("errorMsg");
+            const successMsg = document.getElementById("successMsg");
+
+            if(error !== ""){
+                errorMsg.innerHTML = error;
+                errorMsg.style.display = "block";
+                successMsg.style.display = "none";
+                return;
+            }
+
+            // Preparar datos
+            const formData = {
+                equipo: document.getElementById("equipo").value,
+                encargado: document.getElementById("encargado").value,
+                especialidad: document.getElementById("especialidad").value,
+                celular: celular,
+                dni: dni,
+                email: email,
+                discord: document.getElementById("discord").value,
+                estudiante: document.getElementById("estudiante").value,
+                numIntegrantes: numIntegrantes,
+                integrantes: integrantes,
+                juego: juego.value,
+                campo1: document.getElementById("campo1").value,
+                campo2: document.getElementById("campo2").value
+            };
+
+            // Reemplaza esto con la URL de tu Apps Script desplegado (tipo: web app)
+            // Ejemplo: https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success){
+                    successMsg.innerHTML = "✔ Registro enviado con éxito. Se ha enviado un email de confirmación.";
+                    successMsg.style.display = "block";
+                    errorMsg.style.display = "none";
+                    document.getElementById("registroForm").reset();
+                } else {
+                    errorMsg.innerHTML = "Error al enviar el registro. Intente nuevamente.";
+                    errorMsg.style.display = "block";
+                    successMsg.style.display = "none";
+                }
+            })
+            .catch(error => {
+                errorMsg.innerHTML = "Error de conexión. Intente nuevamente.";
+                errorMsg.style.display = "block";
+                successMsg.style.display = "none";
+                console.error(error);
+            });
+        });
+    document.querySelectorAll('.juego-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const radio = this.querySelector('.juego-select');
+                radio.checked = true;
+
+                document.querySelectorAll('.juego-card').forEach(c => c.classList.remove('selected-card'));
+                this.classList.add('selected-card');
+            });
+        });
+    </script>
+</body>
+</html>
